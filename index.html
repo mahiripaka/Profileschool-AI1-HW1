@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NataliTutor | Английский будущего</title>
+    
+    <!-- Шрифты -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@500;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- 1. SETTINGS & DARK PALETTE --- */
+        :root {
+            /* Backgrounds */
+            --bg-body: #131313;       /* Почти черный */
+            --bg-card: #1a1c22;       /* Графит */
+            --bg-card-hover: #1d1f26; /* Светлее при наведении */
+            --bg-input: #212129;
+            
+            /* Accents */
+            --primary: #CCFF00;       /* ACID LIME */
+            --neon-blue: #3B82F6;     /* NEON BLUE */
+            
+            /* Text */
+            --text-main: #FFFFFF;
+            --text-muted: #A1A1AA;    /* Светло-серый */
+            --text-dark: #000000;     /* Для текста на лаймовых кнопках */
+            
+            --radius: 32px;
+            
+            /* Glows instead of shadows */
+            --shadow-soft: 0 10px 40px -10px rgba(0,0,0, 0.8);
+            --shadow-hover: 0 0 30px rgba(204, 255, 0, 0.15); /* Лаймовое свечение */
+            
+            --nav-height: 80px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        html { scroll-behavior: smooth; }
+        
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            position: relative;
+        }
+
+        /* Слой шума через псевдоэлемент на все тело */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.07'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.4; /* Легкая зернистость */
+        }
+
+        h1, h2, h3, h4, .logo { 
+            font-family: 'Outfit', sans-serif; 
+            letter-spacing: -0.02em;
+        }
+
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        ul { list-style: none; }
+        img { display: block; max-width: 100%; object-fit: cover; }
+
+        /* --- 2. ANIMATIONS --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .floating { animation: float 6s ease-in-out infinite; }
+
+        /* --- 3. UI COMPONENTS --- */
+        .container { width: 90%; max-width: 1200px; margin: 0 auto; position: relative; z-index: 1; }
+        .section-padding { padding: 6rem 0; }
+        .text-center { text-align: center; display: flex; flex-direction: column; align-items: center; }
+
+        .btn {
+            display: inline-flex; justify-content: center; align-items: center; padding: 1rem 2.4rem; border-radius: 100px; font-weight: 700; font-size: 1rem; cursor: pointer; transition: all 0.3s ease; border: none; letter-spacing: 0.01em; position: relative; overflow: hidden;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary); 
+            color: var(--text-dark); 
+            box-shadow: 0 0 20px rgba(204, 255, 0, 0.2);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px); 
+            box-shadow: 0 0 40px rgba(204, 255, 0, 0.4);
+            background-color: #d4ff33;
+        }
+
+        .btn-outline {
+            background: transparent; 
+            border: 1px solid rgba(255,255,255,0.2); 
+            color: var(--text-main);
+        }
+        .btn-outline:hover {
+            border-color: var(--primary); 
+            color: var(--primary);
+            box-shadow: 0 0 20px rgba(204, 255, 0, 0.1);
+        }
+
+        .btn-white {
+            background: #fff; color: #000; font-weight: 800;
+        }
+        .btn-white:hover {
+            transform: scale(1.05); box-shadow: 0 0 30px rgba(255,255,255,0.3);
+        }
+
+        .card {
+            background: var(--bg-card); 
+            border-radius: var(--radius); 
+            padding: 2.5rem; 
+            box-shadow: var(--shadow-soft); 
+            transition: all 0.4s ease; 
+            border: 1px solid rgba(255,255,255,0.05); 
+            overflow: hidden;
+        }
+        .card:hover {
+            transform: translateY(-8px); 
+            background: var(--bg-card-hover);
+            border-color: rgba(255,255,255,0.1);
+            box-shadow: 0 20px 60px -10px rgba(0,0,0,0.8);
+        }
+
+        /* --- 4. HEADER --- */
+        .navbar {
+            position: fixed; top: 20px; left: 0; right: 0; width: 90%; max-width: 1200px; margin: 0 auto;
+            height: 70px; 
+            background: rgba(18, 18, 20, 0.7); 
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-radius: 100px; z-index: 1000; padding: 0 1.5rem; 
+            border: 1px solid rgba(255,255,255,0.08);
+            display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.3rem; font-weight: 800; color: var(--text-main); display: flex; align-items: center; gap: 8px; z-index: 1002; justify-self: start;
+        }
+        .logo-dot { width: 10px; height: 10px; background: var(--primary); border-radius: 50%; box-shadow: 0 0 10px var(--primary); }
+
+        .nav-menu { display: flex; gap: 2.5rem; align-items: center; justify-self: center; }
+        .nav-menu a { font-size: 0.95rem; font-weight: 500; color: var(--text-muted); position: relative; transition: color 0.3s; }
+        .nav-menu a:hover { color: var(--primary); }
+
+        .nav-cta-wrapper { justify-self: end; }
+
+        .burger { display: none; cursor: pointer; z-index: 1002; width: 30px; height: 20px; position: relative; justify-self: end; }
+        .burger span { display: block; width: 100%; height: 2px; background-color: var(--text-main); position: absolute; border-radius: 2px; transition: all 0.3s ease; }
+        .burger span:nth-child(1) { top: 0; }
+        .burger span:nth-child(2) { top: 9px; }
+        .burger span:nth-child(3) { top: 18px; }
+        .burger.active span:nth-child(1) { transform: rotate(45deg); top: 9px; }
+        .burger.active span:nth-child(2) { opacity: 0; }
+        .burger.active span:nth-child(3) { transform: rotate(-45deg); top: 9px; }
+
+        .mobile-menu-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: var(--bg-body); z-index: 1001; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 2rem; transform: translateY(-100%); transition: transform 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+        }
+        .mobile-menu-overlay.active { transform: translateY(0); }
+        .mobile-menu-overlay a { font-size: 1.8rem; font-weight: 700; color: var(--text-main); font-family: 'Outfit', sans-serif; }
+        
+        /* Исправление цвета кнопки в мобильном меню */
+        .mobile-menu-overlay .btn-primary {
+            color: var(--text-dark);
+        }
+
+        /* --- 5. HERO SECTION --- */
+        .hero-section { padding-top: 150px; padding-bottom: 4rem; }
+        .hero-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 2.5rem; min-height: 580px; }
+
+        .hero-text-card {
+            /* Темный градиент с шумом */
+            background: linear-gradient(135deg, #1A1A1E 0%, #0F0F11 100%);
+            color: white; position: relative; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
+            border: 1px solid rgba(255,255,255,0.1);
+            overflow: hidden; z-index: 1;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E"), linear-gradient(135deg, #1A1A1E 0%, #0F0F11 100%);
+        }
+
+        /* Декоративный круг 1 (Синий неон) */
+        .hero-text-card::before {
+            content: ''; position: absolute; top: -150px; left: -150px; width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, rgba(0,0,0,0) 70%); border-radius: 50%; z-index: -1; pointer-events: none;
+        }
+        /* Декоративный круг 2 (Лайм) */
+        .hero-text-card::after {
+            content: ''; position: absolute; bottom: -100px; right: -100px; width: 400px; height: 400px;
+            background: radial-gradient(circle, rgba(204, 255, 0, 0.1) 0%, rgba(0,0,0,0) 70%); border-radius: 50%; z-index: -1; pointer-events: none;
+        }
+
+        .gradient-text { 
+            background: linear-gradient(to right, #FFFFFF, #E8FF8C); 
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; 
+        }
+        
+        .hero-title { font-size: 3.5rem; line-height: 1.05; margin-bottom: 1.5rem; z-index: 2; font-weight: 800; }
+        .hero-subtitle { font-size: 1.15rem; margin-bottom: 2.5rem; opacity: 0.8; z-index: 2; max-width: 80%; font-weight: 400; color: var(--text-muted); }
+        
+        .hero-image-card { padding: 0; position: relative; border: none; background: transparent; box-shadow: none; overflow: visible;}
+        .hero-image-card img { 
+            width: 100%; height: 100%; object-fit: cover; border-radius: var(--radius); 
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 0 50px rgba(59, 130, 246, 0.1); 
+        }
+
+        /* --- 6. STATS --- */
+        .stats-section { margin-top: 3rem; }
+        .stats-card-container {
+            background: var(--bg-card); 
+            border-radius: 50px; 
+            padding: 3rem; 
+            border: 1px solid rgba(255,255,255,0.05);
+            display: flex; justify-content: space-between; align-items: flex-start;
+        }
+        .stat-item { flex: 1; text-align: center; position: relative; display: flex; flex-direction: column; align-items: center; }
+        .stat-item:not(:last-child)::after {
+            content: ''; position: absolute; right: 0; top: 10px; bottom: 10px; width: 1px; background: rgba(255,255,255,0.1);
+        }
+        .stat-num { 
+            display: block; font-size: 3.5rem; font-weight: 700; color: var(--primary);
+            margin-bottom: 0.5rem; line-height: 1; font-family: 'Outfit', sans-serif;
+            text-shadow: 0 0 20px rgba(204, 255, 0, 0.3);
+        }
+        .stat-desc { font-size: 0.95rem; color: var(--text-muted); line-height: 1.4; font-weight: 500; }
+
+        /* --- 7. ABOUT --- */
+        .about-grid { display: grid; grid-template-columns: 1fr 1.3fr; gap: 4rem; align-items: center; }
+        .about-label {
+            color: var(--primary); font-weight: 700; text-transform: uppercase; font-size: 0.9rem; letter-spacing: 0.05em; margin-bottom: 1rem; display: block;
+        }
+        .about-title { font-size: 2.5rem; margin-bottom: 1.5rem; color: var(--text-main); line-height: 1.1; font-weight: 700; }
+        .about-desc { color: var(--text-muted); font-size: 1rem; line-height: 1.6; margin-bottom: 2.5rem; }
+        .about-features { display: flex; flex-direction: column; gap: 1rem; }
+        
+        .about-feature-card {
+            background: var(--bg-card);
+            border-radius: 20px; padding: 1.2rem 1.5rem; display: flex; align-items: center; gap: 1.2rem; 
+            border: 1px solid rgba(255,255,255,0.05); transition: transform 0.3s;
+        }
+        .about-feature-card:hover { transform: translateX(10px); border-color: rgba(255,255,255,0.2); }
+        
+        .feature-icon-wrapper {
+            min-width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: var(--primary);
+        }
+        .feature-icon-wrapper svg circle[fill="#8B80F9"] { fill: var(--primary); fill-opacity: 0.1; }
+        .feature-icon-wrapper svg path { stroke: var(--primary); }
+        .feature-icon-wrapper svg path[fill="#8B80F9"] { fill: var(--primary); }
+        .feature-icon-wrapper svg circle[r="1"] { fill: #000; }
+
+        .feature-text { font-weight: 600; color: var(--text-main); font-size: 1rem; }
+        
+        .about-photo { order: -1; border-radius: 200px 200px 0 0; overflow: hidden; height: 600px; position: relative; border: 1px solid rgba(255,255,255,0.1); }
+        .about-photo img { height: 100%; width: 100%; object-fit: cover; opacity: 0.9; }
+
+        /* --- 8. METHODOLOGY --- */
+        .methodology-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+        .icon-circle {
+            width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; margin-bottom: 1.5rem; transition: transform 0.3s;
+            background: #121214 !important; 
+            border: 1px solid rgba(255,255,255,0.1);
+            color: var(--primary) !important;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        }
+        .methodology-grid .card:nth-child(1) .icon-circle { color: var(--primary) !important; border-color: var(--primary); box-shadow: 0 0 15px rgba(204,255,0,0.1); }
+        .methodology-grid .card:nth-child(2) .icon-circle { color: var(--neon-blue) !important; border-color: var(--neon-blue); box-shadow: 0 0 15px rgba(59,130,246,0.15); }
+        .methodology-grid .card:nth-child(3) .icon-circle { color: #FF00FF !important; border-color: #FF00FF; box-shadow: 0 0 15px rgba(255,0,255,0.15); }
+
+        .card:hover .icon-circle { transform: rotate(10deg) scale(1.1); }
+
+        /* --- 9. FORMATS (PRICING) --- */
+        .formats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 30px; }
+
+        .pricing-card {
+            display: flex; flex-direction: column; align-items: center; text-align: center; justify-content: space-between; height: 100%; padding: 2.5rem 2rem; position: relative; 
+            border: 1px solid rgba(255,255,255,0.05); overflow: visible !important; 
+        }
+        
+        .pricing-card.featured {
+            border: 1px solid var(--primary); 
+            background: #1c1c1f;
+            box-shadow: 0 0 30px rgba(204, 255, 0, 0.05);
+            z-index: 2; transition: all 0.4s ease;
+        }
+        .pricing-card.featured:hover {
+            box-shadow: 0 0 50px rgba(204, 255, 0, 0.15); transform: translateY(-8px) scale(1.05);
+        }
+        @media (max-width: 900px) { .pricing-card.featured:hover { transform: translateY(-8px); } }
+
+        .badge-top-center {
+            position: absolute; top: 0; left: 50%; transform: translate(-50%, -50%);
+            background-color: var(--primary); 
+            color: #000;
+            padding: 0.4rem 1.2rem; border-radius: 100px; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; 
+            box-shadow: 0 0 15px rgba(204, 255, 0, 0.4); 
+            z-index: 10;
+        }
+
+        .pricing-title { font-size: 1.3rem; font-weight: 800; margin-bottom: 0.5rem; color: var(--text-main); line-height: 1.2; margin-top: 10px; }
+        .pricing-subtitle { font-size: 0.95rem; color: var(--text-muted); margin-bottom: 2rem; font-weight: 500; min-height: 1.5em; }
+        
+        .pricing-amount { 
+            font-size: 3rem; font-weight: 800; color: var(--text-main); line-height: 1; font-family: 'Outfit', sans-serif; letter-spacing: -1px; margin-bottom: 2rem; display: flex; align-items: baseline; justify-content: center; gap: 10px; 
+            text-shadow: 0 0 15px rgba(255,255,255,0.1);
+        }
+        .pricing-amount span { font-size: 1rem; color: var(--text-muted); font-weight: 500; letter-spacing: normal; text-shadow: none; }
+        
+        .pricing-check-list { list-style: none; margin-bottom: 2.5rem; padding: 0; text-align: left; width: 100%; }
+        .pricing-check-list li { position: relative; padding-left: 2rem; margin-bottom: 1rem; color: var(--text-muted); font-size: 1rem; font-weight: 400; display: flex; align-items: center; }
+        .pricing-check-list li::before { 
+            content: '✓'; position: absolute; left: 0; width: 20px; height: 20px; color: var(--primary); font-weight: 900; font-size: 1.2rem; line-height: 1; text-shadow: 0 0 10px var(--primary);
+        }
+
+        @media (min-width: 901px) { .pricing-card.featured { transform: scale(1.05); } }
+
+        /* --- 10. REVIEWS (DARK) --- */
+        .review-card {
+            background: var(--bg-card); padding: 2rem; border-radius: 32px; display: flex; flex-direction: column; height: 100%; border: 1px solid rgba(255,255,255,0.05); box-shadow: var(--shadow-soft); transition: all 0.4s ease;
+        }
+        .review-card:hover { transform: translateY(-8px); border-color: rgba(255,255,255,0.2); }
+        
+        .review-quote-box {
+            background: #1F1F22; 
+            padding: 2rem; border-radius: 20px; color: #D4D4D8; 
+            font-style: italic; font-size: 0.95rem; line-height: 1.5; margin-bottom: 1.5rem; flex-grow: 1;
+            border: 1px solid rgba(255,255,255,0.02);
+        }
+        
+        .review-footer { display: flex; align-items: center; gap: 1rem; padding-left: 0.5rem; }
+        .user-avatar { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 1px solid rgba(255,255,255,0.1); }
+        .user-info h4 { font-size: 1rem; font-weight: 700; margin: 0; line-height: 1.2; color: var(--text-main); }
+        .user-info span { font-size: 0.85rem; color: var(--text-muted); }
+
+        /* Contact & Footer */
+        .contact-wrapper { 
+            /* Same dark gradient as Hero + Noise */
+            background: linear-gradient(135deg, #1A1A1E 0%, #0F0F11 100%);
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E"), linear-gradient(135deg, #1A1A1E 0%, #0F0F11 100%);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: var(--radius); padding: 5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; position: relative; overflow: hidden; 
+            z-index: 1;
+        }
+        /* Matching Hero Glows */
+        .contact-wrapper::before { 
+            content: ''; position: absolute; top: -100px; left: -100px; width: 400px; height: 400px; background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, rgba(0,0,0,0) 70%); border-radius: 50%; z-index: -1; pointer-events: none;
+        }
+        .contact-wrapper::after {
+            content: ''; position: absolute; bottom: -100px; right: -100px; width: 400px; height: 400px; background: radial-gradient(circle, rgba(204, 255, 0, 0.1) 0%, rgba(0,0,0,0) 70%); border-radius: 50%; z-index: -1; pointer-events: none;
+        }
+        
+        .contact-form { 
+            background: rgba(30, 30, 35, 0.6); backdrop-filter: blur(20px); padding: 2.5rem; border-radius: 32px; 
+            border: 1px solid rgba(255,255,255,0.05); position: relative; z-index: 2; 
+        }
+        
+        .form-input { 
+            width: 100%; padding: 1.2rem; margin-bottom: 1rem; 
+            background: #09090b; 
+            border: 1px solid #333; border-radius: 16px; font-family: inherit; color: var(--text-main); font-size: 1rem; transition: border 0.3s; 
+        }
+        .form-input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 10px rgba(204, 255, 0, 0.1); }
+
+        footer { margin-top: 6rem; padding: 4rem 0; border-top: 1px solid rgba(255,255,255,0.05); background: #050505; }
+        .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 2rem; }
+        .footer-col h5 { font-size: 1.1rem; margin-bottom: 1.5rem; font-weight: 700; color: var(--text-main); }
+        .footer-col a { display: block; margin-bottom: 1rem; color: var(--text-muted); font-size: 0.95rem; transition: transform 0.2s; }
+        .footer-col a:hover { color: var(--primary); transform: translateX(5px); }
+
+        /* Subtitle style */
+        .section-subtitle { font-size: 1.1rem; color: var(--text-muted); margin-bottom: 3rem; font-weight: 400; }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 900px) {
+            .navbar { display: flex; justify-content: space-between; width: 95%; top: 10px; padding: 0 1.5rem; }
+            .nav-menu { display: none; }
+            .nav-cta-wrapper { display: none; }
+            .burger { display: block; }
+            
+            .hero-grid, .stats-card-container, .methodology-grid, .about-grid, .formats-grid, .contact-wrapper, .footer-grid, .benefits-grid {
+                grid-template-columns: 1fr;
+            }
+            .benefits-grid { grid-template-columns: 1fr !important; }
+            
+            /* Stats on mobile */
+            .stats-card-container { flex-direction: column; gap: 2rem; padding: 2rem; }
+            .stat-item:not(:last-child)::after { display: none; }
+            .stat-item { border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 1.5rem; width: 100%; }
+            .stat-item:last-child { border: none; padding: 0; }
+
+            .hero-grid { grid-template-rows: auto auto; gap: 1.5rem; }
+            .hero-image-card { min-height: 360px; }
+            .about-photo { height: 450px; border-radius: 32px; }
+            
+            .contact-wrapper { padding: 2.5rem; gap: 2rem; }
+            .hero-title { font-size: 2.5rem; }
+            .section-title { font-size: 2rem; }
+            .footer-grid { grid-template-columns: 1fr; text-align: center; }
+            .footer-col a:hover { transform: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Навигация -->
+    <nav class="navbar">
+        <a href="#" class="logo">
+            <div class="logo-dot"></div>
+            NataliTutor
+        </a>
+        
+        <div class="nav-menu">
+            <a href="#about">Обо мне</a>
+            <a href="#methodology">Методика</a>
+            <a href="#reviews">Отзывы</a>
+            <a href="#formats">Цены</a>
+            <a href="#contacts">Контакты</a>
+        </div>
+
+        <div class="nav-cta-wrapper">
+            <a href="#contact" class="btn btn-primary" style="padding: 0.7rem 1.8rem; font-size: 0.95rem;">
+                Связаться
+            </a>
+        </div>
+
+        <div class="burger" id="burgerBtn">
+            <span></span><span></span><span></span>
+        </div>
+    </nav>
+
+    <!-- Мобильное Меню -->
+    <div class="mobile-menu-overlay" id="mobileMenu">
+        <a href="#about" class="mobile-link">Обо мне</a>
+        <a href="#methodology" class="mobile-link">Методика</a>
+        <a href="#reviews" class="mobile-link">Отзывы</a>
+        <a href="#formats" class="mobile-link">Обучение</a>
+        <a href="#contacts" class="mobile-link">Контакты</a>
+        <a href="#contact" class="btn btn-primary mobile-link" style="font-size: 1.2rem;">Связаться</a>
+    </div>
+
+    <div class="container">
+
+        <!-- 1. HERO -->
+        <section class="hero-section">
+            <div class="hero-grid">
+                <div class="card hero-text-card reveal">
+                    <h1 class="hero-title"><span class="gradient-text">Английский легко</span><br>с репетитором<br>Натальей Орловой</h1>
+                    <p class="hero-subtitle">
+                        Персональные и групповые занятия. Подготовка к ЕГЭ/ОГЭ и международным экзаменам начального уровня
+                    </p>
+                    <a href="#contact" class="btn btn-white" style="align-self: center; color: #000;">Пробный урок</a>
+                </div>
+                <div class="card hero-image-card reveal" style="transition-delay: 0.1s;">
+                    <img src="https://images.unsplash.com/photo-1590650516494-0c8e4a4dd67e?q=80&w=1000&auto=format&fit=crop" class="floating" alt="Tutor">
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. STATS -->
+        <section class="reveal">
+            <div class="stats-card-container">
+                <div class="stat-item">
+                    <span class="stat-num">300+</span>
+                    <span class="stat-desc">Довольных учеников<br>уже сдали экзамены</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-num">6+</span>
+                    <span class="stat-desc">Лет практики<br>и преподавания</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-num">100%</span>
+                    <span class="stat-desc">Удовольствия<br>от процесса обучения</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. ABOUT -->
+        <section id="about" class="section-padding">
+            <div class="about-grid">
+                
+                <!-- Контент справа -->
+                <div class="reveal">
+                    <span class="about-label">Обо мне</span>
+                    <h2 class="about-title">Не просто репетитор, а наставник</h2>
+                    <p class="about-desc">
+                        Меня зовут Наталья. Я — бывший классный руководитель, который знает все "боли" школьной программы изнутри. Сейчас я помогаю подросткам не только сдавать экзамены, но и верить в себя.
+                    </p>
+                    
+                    <!-- Плашки преимуществ -->
+                    <div class="about-features">
+                        <div class="about-feature-card">
+                            <div class="feature-icon-wrapper">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="12" fill="currentColor" fill-opacity="0.2"/><path d="M7 12L10.5 15.5L17 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            </div>
+                            <span class="feature-text">Знаю все ловушки ФИПИ и школьных учебников</span>
+                        </div>
+
+                        <div class="about-feature-card">
+                            <div class="feature-icon-wrapper">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="12" fill="currentColor" fill-opacity="0.2"/><path d="M12 7.69431C10 5 7 5.5 7 9C7 13 12 16 12 16C12 16 17 13 17 9C17 5.5 14 5 12 7.69431Z" fill="currentColor"/></svg>
+                            </div>
+                            <span class="feature-text">Строгость там, где нужно, и поддержка всегда</span>
+                        </div>
+
+                        <div class="about-feature-card">
+                            <div class="feature-icon-wrapper">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="12" fill="currentColor" fill-opacity="0.2"/><path d="M12 16C12 16 16 13 16 10C16 7.79086 14.2091 6 12 6C9.79086 6 8 7.79086 8 10C8 13 12 16 12 16Z" fill="currentColor"/><circle cx="12" cy="10" r="1" fill="white"/><circle cx="10" cy="10" r="1" fill="white"/><circle cx="14" cy="10" r="1" fill="white"/></svg>
+                            </div>
+                            <span class="feature-text">Учу говорить, а не только решать тесты</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Фото слева -->
+                <div class="about-photo reveal" style="transition-delay: 0.2s;">
+                    <img src="https://images.unsplash.com/photo-1580894732444-8ecded7900cd?q=80&w=1000&auto=format&fit=crop" alt="Nataly">
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. METHODOLOGY -->
+        <section id="methodology" class="section-padding text-center">
+            <h2 class="section-title reveal">Как проходят уроки</h2>
+            <p class="reveal" style="color: var(--text-muted); margin-bottom: 3rem; max-width: 600px; margin-left: auto; margin-right: auto; font-size: 1.1rem;">
+                Баланс академических знаний и увлекательного интерактива
+            </p>
+
+            <div class="methodology-grid">
+                <div class="card reveal">
+                    <div style="display: flex; flex-direction: column; align-items: center; text-align: center;">
+                        <div class="icon-circle floating">
+                            <!-- SVG Gamepad (Line Art) -->
+                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="2" y="6" width="20" height="12" rx="2" />
+                                <path d="M6 12h4m-2-2v4" />
+                                <line x1="15" y1="11" x2="15.01" y2="11" />
+                                <line x1="18" y1="13" x2="18.01" y2="13" />
+                            </svg>
+                        </div>
+                        <h3 style="margin-bottom: 1rem; font-weight: 700; font-size: 1.4rem;">Геймификация</h3>
+                        <p style="color: var(--text-muted); font-size: 1rem; line-height: 1.5;">Используем Kahoot, Quizlet и Miro. Заучивание слов превращается в соревнование.</p>
+                    </div>
+                </div>
+                <div class="card reveal" style="transition-delay: 0.1s;">
+                    <div style="display: flex; flex-direction: column; align-items: center; text-align: center;">
+                        <div class="icon-circle floating" style="animation-delay: 1s;">
+                             <!-- SVG Monitor (Line Art) -->
+                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                                <line x1="8" y1="21" x2="16" y2="21"></line>
+                                <line x1="12" y1="17" x2="12" y2="21"></line>
+                            </svg>
+                        </div>
+                        <h3 style="margin-bottom: 1rem; font-weight: 700; font-size: 1.4rem;">Живой язык</h3>
+                        <p style="color: var(--text-muted); font-size: 1rem; line-height: 1.5;">Разбираем мемы и актуальные статьи. Английский, на котором реально говорят.</p>
+                    </div>
+                </div>
+                <div class="card reveal" style="transition-delay: 0.2s;">
+                    <div style="display: flex; flex-direction: column; align-items: center; text-align: center;">
+                        <div class="icon-circle floating" style="animation-delay: 2s;">
+                             <!-- SVG Graduation Cap (Line Art) -->
+                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+                                <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+                            </svg>
+                        </div>
+                        <h3 style="margin-bottom: 1rem; font-weight: 700; font-size: 1.4rem;">Системность</h3>
+                        <p style="color: var(--text-muted); font-size: 1rem; line-height: 1.5;">Четкий план подготовки к ОГЭ/ЕГЭ. Регулярные "пробники", отслеживание прогресса.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. FORMATS (PRICING) -->
+        <section id="formats" class="section-padding text-center">
+            <h2 class="section-title reveal" style="margin-bottom: 0.5rem;">Стоимость занятий</h2>
+            <p class="section-subtitle reveal" style="transition-delay: 0.1s;">Инвестиция в будущее вашего ребенка</p>
+            
+            <div class="formats-grid">
+                
+                <!-- Карточка 1 -->
+                <div class="card pricing-card reveal">
+                    <div>
+                        <h3 class="pricing-title">В парах (2 чел)</h3>
+                        <p class="pricing-subtitle">Веселее и дешевле</p>
+                        <div class="pricing-amount">1500₽ <span>/ урок</span></div>
+                        <ul class="pricing-check-list">
+                            <li>60 минут</li>
+                            <li>Здоровая конкуренция</li>
+                            <li>Проверка ДЗ</li>
+                        </ul>
+                    </div>
+                    <a href="#contact" class="btn btn-outline" style="width:100%;">Выбрать</a>
+                </div>
+
+                <!-- Карточка 2 -->
+                <div class="card pricing-card featured reveal" style="transition-delay: 0.1s;">
+                    <div class="badge-top-center">POPULAR</div>
+                    <div>
+                        <h3 class="pricing-title">Личное наставничество</h3>
+                        <p class="pricing-subtitle">Максимальный фокус</p>
+                        <div class="pricing-amount">2500₽ <span>/ урок</span></div>
+                        <ul class="pricing-check-list">
+                            <li>60 минут</li>
+                            <li>Персональный трек</li>
+                            <li>Связь 24/7 в Telegram</li>
+                            <li>Отчеты родителям</li>
+                        </ul>
+                    </div>
+                    <a href="#contact" class="btn btn-primary" style="width:100%;">Записаться</a>
+                </div>
+
+                <!-- Карточка 3 -->
+                <div class="card pricing-card reveal" style="transition-delay: 0.2s;">
+                    <div>
+                        <h3 class="pricing-title">Курс "Интенсив ЕГЭ"</h3>
+                        <p class="pricing-subtitle">За 3 месяца до экзамена</p>
+                        <div class="pricing-amount">25К <span>/ курс</span></div>
+                        <ul class="pricing-check-list">
+                            <li>24 занятия в группе</li>
+                            <li>4 пробника с проверкой</li>
+                            <li>Вебинары с психологом</li>
+                        </ul>
+                    </div>
+                    <a href="#contact" class="btn btn-outline" style="width:100%;">Узнать даты</a>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 6. REVIEWS -->
+        <section id="reviews" class="section-padding text-center" style="padding-top:0;">
+             <h2 class="section-title reveal" style="margin-bottom: 0.5rem;">Отзывы</h2>
+             <p class="section-subtitle reveal" style="transition-delay: 0.1s;">Что говорят родители и ученики</p>
+             
+             <div class="benefits-grid" style="text-align: left; display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem;">
+                
+                <!-- Review 1 -->
+                <div class="review-card reveal">
+                    <div class="review-quote-box">
+                        "Сын перестал бояться уроков английского в школе. Раньше была тройка с натяжкой, сейчас уверенная 4, и готовится к ОГЭ с интересом."
+                    </div>
+                    <div class="review-footer">
+                        <img src="https://randomuser.me/api/portraits/women/44.jpg" class="user-avatar" alt="Марина В.">
+                        <div class="user-info">
+                            <h4>Марина В.</h4>
+                            <span>Мама ученика</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 2 -->
+                <div class="review-card reveal" style="transition-delay: 0.1s;">
+                    <div class="review-quote-box">
+                        "Занятия проходят незаметно. Мы разбираем мои любимые песни, и я наконец-то понял времена! На пробнике набрал 80 баллов."
+                    </div>
+                    <div class="review-footer">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" class="user-avatar" alt="Артём">
+                        <div class="user-info">
+                            <h4>Артём</h4>
+                            <span>11 класс</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 3 -->
+                <div class="review-card reveal" style="transition-delay: 0.2s;">
+                    <div class="review-quote-box">
+                        "Очень структурированная подача. Наталья требовательная, но добрая. Всегда объяснит, если непонятно, хоть 10 раз."
+                    </div>
+                    <div class="review-footer">
+                        <img src="https://randomuser.me/api/portraits/women/68.jpg" class="user-avatar" alt="Елена П.">
+                        <div class="user-info">
+                            <h4>Елена П.</h4>
+                            <span>Мама</span>
+                        </div>
+                    </div>
+                </div>
+
+             </div>
+        </section>
+
+        <!-- 7. CONTACT -->
+        <section id="contact" class="section-padding">
+            <div class="contact-wrapper reveal">
+                <div>
+                    <h2 style="font-size: 2.5rem; line-height: 1.1; margin-bottom: 1.5rem; color: #FFFFFF;">
+                        Прокачай свой <span class="gradient-text">English</span><br>до уровня <span class="gradient-text">Pro</span>
+                    </h2>
+                    <p style="font-size:1.15rem; color: #D4D4D8;">
+                        Оставь заявку на бесплатный пробный урок. Определим твой уровень и составим план победы.
+                    </p>
+                </div>
+                <div class="contact-form">
+                    <form onsubmit="event.preventDefault(); alert('Спасибо! Ваша заявка отправлена.');">
+                        <label style="display:block; margin-bottom: 0.5rem; font-weight:600; font-size:0.9rem; color: #D4D4D8;">Ваше имя</label>
+                        <input type="text" class="form-input" placeholder="Например, Иван">
+                        
+                        <label style="display:block; margin-bottom: 0.5rem; font-weight:600; font-size:0.9rem; color: #D4D4D8;">Телефон или Telegram</label>
+                        <input type="text" class="form-input" placeholder="+7 (999) 000-00-00">
+                        
+                        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 0.5rem;">Отправить заявку</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- FOOTER -->
+    <footer id="contacts">
+        <div class="container footer-grid">
+            <div class="footer-col">
+                <a href="#" class="logo" style="margin-bottom: 1.5rem;">
+                    <div class="logo-dot"></div> NataliTutor
+                </a>
+                <p style="color:#A1A1AA; font-size: 0.9rem;">&copy; 2026 Наталья Орлова.</p>
+            </div>
+            <div class="footer-col">
+                <h5>Навигация</h5>
+                <a href="#">Домой</a><a href="#about">Обо мне</a><a href="#reviews">Отзывы</a>
+            </div>
+            <div class="footer-col">
+                <h5>Соцсети</h5>
+                <a href="#">Instagram</a><a href="#">Telegram</a>
+            </div>
+            <div class="footer-col">
+                <h5>Контакты</h5>
+                <a href="#">+7 (000) 000 00 00</a><a href="#">hello@natali-tutor.com</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Мобильное меню
+        const burgerBtn = document.getElementById('burgerBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+        burgerBtn.addEventListener('click', () => {
+            burgerBtn.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+        });
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                burgerBtn.classList.remove('active');
+                mobileMenu.classList.remove('active');
+            });
+        });
+
+        // Анимация при скролле (Scroll Reveal)
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 100;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        // Запустить один раз при загрузке
+        reveal();
+    </script>
+</body>
+</html>
