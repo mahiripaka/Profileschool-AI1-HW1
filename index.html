@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NataliTutor | Английский будущего</title>
-    
+    <title>Репетитор по английскому | Подготовка к ЕГЭ и ОГЭ - Наталья Орлова</title>
+    <meta name="description" content="Репетитор по английскому языку. Подготовка к ЕГЭ и ОГЭ, индивидуальные и групповые занятия. Бесплатный пробный урок.">
     <!-- Шрифты -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -268,7 +268,8 @@
         .feature-text { font-weight: 600; color: var(--text-main); font-size: 1rem; }
         
         .about-photo { order: -1; border-radius: var(--radius); overflow: hidden; height: 600px; position: relative; border: 1px solid rgba(255,255,255,0.1); }
-        .about-photo img { height: 100%; width: 100%; object-fit: cover; opacity: 0.9; }
+        .about-photo img { height: 100%; width: 100%; object-fit: cover; opacity: 0.9; transition: transform 0.3s ease; cursor: pointer; }
+        .about-photo img:hover { transform: scale(1.05); }
 
         /* --- 8. METHODOLOGY --- */
         .methodology-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
@@ -467,7 +468,7 @@
                     <a href="#contact" class="btn btn-white" style="align-self: center; color: #000;">Пробный урок</a>
                 </div>
                 <div class="card hero-image-card reveal" style="transition-delay: 0.1s;">
-                    <img src="img/students1.jpg" class="floating" alt="Tutor">
+                    <img src="img/students1.jpg" class="floating" alt="Наталья Орлова - занятие с учениками">
                 </div>
             </div>
         </section>
@@ -529,7 +530,7 @@
 
                 <!-- Фото слева -->
                 <div class="about-photo reveal" style="transition-delay: 0.2s;">
-                    <img src="img/teacher1.jpg" alt="Nataly">
+                    <img src="img/teacher1.jpg" alt="Наталья Орлова">
                 </div>
             </div>
         </section>
