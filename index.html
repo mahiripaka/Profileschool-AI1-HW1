@@ -814,7 +814,7 @@
                             <label style="display:block; margin-bottom: 0.5rem; font-weight:600; font-size:0.9rem; color: #D4D4D8;">Хочу</label>
                             <select name="topic" id="topicSelect" class="form-input">
                                 <option value="Пробный урок">Пробный урок</option>
-                                <option value="Занятия в группе (3 - 4 человека)">Занятия в группе (3 - 4 человека)</option>
+                                <option value="Занятия в группе">Занятия в группе</option>
                                 <option value="Индивидуальные занятия">Индивидуальные занятия</option>
                                 <option value="Интенсив ЕГЭ">Интенсив ЕГЭ</option>
                             </select>
@@ -929,7 +929,7 @@
 
         // Обработчики для тарифов
         document.getElementById('btnGroup').addEventListener('click', () => {
-            topicSelect.value = 'Занятия в группе (3 - 4 человека)';
+            topicSelect.value = 'Занятия в группе';
         });
         document.getElementById('btnPersonal').addEventListener('click', () => {
             topicSelect.value = 'Индивидуальные занятия';
