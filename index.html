@@ -7,16 +7,35 @@
     <meta name="description" content="Репетитор по английскому языку. Подготовка к ЕГЭ и ОГЭ, индивидуальные и групповые занятия. Бесплатный пробный урок.">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://mahiripaka.github.io/English-Tutor-Natali-Orlova/">
+    
+    <!-- Open Graph -->
     <meta property="og:title" content="Репетитор по английскому | Подготовка к ЕГЭ и ОГЭ - Наталья Орлова">
     <meta property="og:description" content="Репетитор по английскому языку. Подготовка к ЕГЭ и ОГЭ, индивидуальные и групповые занятия. Бесплатный пробный урок.">
     <meta property="og:image" content="https://mahiripaka.github.io/English-Tutor-Natali-Orlova/img/students1.jpg">
     <meta property="og:url" content="https://mahiripaka.github.io/English-Tutor-Natali-Orlova/">
-    <meta property="og:type" content="website">
+    <meta property="og:type" content="profile">
+    
     <link rel="icon" href="favicon.ico" type="image/x-icon">
+    
     <!-- Шрифты -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@500;700;800&display=swap" rel="stylesheet">
+
+    <!-- Schema.org Markup (SEO Улучшение) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Наталья Орлова",
+      "jobTitle": "Репетитор по английскому языку",
+      "url": "https://mahiripaka.github.io/English-Tutor-Natali-Orlova/",
+      "image": "https://mahiripaka.github.io/English-Tutor-Natali-Orlova/img/teacher1.jpg",
+      "description": "Профессиональный репетитор по английскому языку. Подготовка к ЕГЭ и ОГЭ, современные методики обучения.",
+      "knowsAbout": ["Английский язык", "ЕГЭ", "ОГЭ", "Педагогика"],
+      "priceRange": "1500-2500 RUB"
+    }
+    </script>
 
     <style>
         /* --- 1. SETTINGS & DARK PALETTE --- */
@@ -179,7 +198,6 @@
         .burger.active span:nth-child(2) { opacity: 0; }
         .burger.active span:nth-child(3) { transform: rotate(-45deg); top: 9px; }
 
-        /* Focus state for burger (Tab navigation) */
         .burger:focus { outline: none; }
         .burger:focus span { background-color: var(--primary); }
 
@@ -189,14 +207,11 @@
         .mobile-menu-overlay.active { transform: translateY(0); }
         .mobile-menu-overlay a { font-size: 1.8rem; font-weight: 700; color: var(--text-main); font-family: 'Outfit', sans-serif; transition: color 0.3s; }
         
-        /* Focus state for mobile links (Tab navigation) */
         .mobile-menu-overlay a:focus { color: var(--primary); outline: none; }
         
-        /* Исправление цвета кнопки в мобильном меню */
         .mobile-menu-overlay .btn-primary {
             color: var(--text-dark);
         }
-
         .mobile-menu-overlay .btn-primary:focus {
             color: var(--text-dark);
             box-shadow: 0 0 30px rgba(204, 255, 0, 0.5);
@@ -208,7 +223,6 @@
         .hero-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 2.5rem; min-height: 580px; }
 
         .hero-text-card {
-            /* Темный градиент с шумом */
             background: linear-gradient(135deg, #1A1A1E 0%, #0F0F11 100%);
             color: white; position: relative; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
             border: 1px solid rgba(255,255,255,0.1);
@@ -216,12 +230,10 @@
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E"), linear-gradient(135deg, #1A1A1E 0%, #0F0F11 100%);
         }
 
-        /* Декоративный круг 1 (Синий неон) */
         .hero-text-card::before {
             content: ''; position: absolute; top: -150px; left: -150px; width: 500px; height: 500px;
             background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, rgba(0,0,0,0) 70%); border-radius: 50%; z-index: -1; pointer-events: none;
         }
-        /* Декоративный круг 2 (Лайм) */
         .hero-text-card::after {
             content: ''; position: absolute; bottom: -100px; right: -100px; width: 400px; height: 400px;
             background: radial-gradient(circle, rgba(204, 255, 0, 0.1) 0%, rgba(0,0,0,0) 70%); border-radius: 50%; z-index: -1; pointer-events: none;
@@ -472,6 +484,23 @@
         select.form-input option {
             background-color: #1a1c22;
             color: var(--text-main);
+        }
+
+        /* Success Message Styling */
+        .success-message {
+            display: none;
+            text-align: center;
+            animation: fadeIn 0.5s ease;
+        }
+        .success-icon {
+            font-size: 4rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         footer { 
@@ -850,25 +879,40 @@
     <div id="modalOverlay" class="modal-overlay">
         <div class="modal-content">
             <button class="modal-close">&times;</button>
-            <h2 class="modal-title">Оставить заявку</h2>
-            <form id="telegramForm">
-                <label style="display:block; margin-bottom: 0.5rem; font-weight:600; font-size:0.9rem; color: #D4D4D8;">Ваше имя</label>
-                <input type="text" name="name" class="form-input" placeholder="Например, Иван" required>
-                
-                <label style="display:block; margin-bottom: 0.5rem; font-weight:600; font-size:0.9rem; color: #D4D4D8;">Телефон или Telegram</label>
-                <input type="text" name="phone" class="form-input" placeholder="+7 (999) 000-00-00" required>
-                
-                <label style="display:block; margin-bottom: 0.5rem; font-weight:600; font-size:0.9rem; color: #D4D4D8;">Ваш выбор</label>
-                <select name="topic" id="topicSelect" class="form-input">
-                    <option value="Пробный урок">Пробный урок</option>
-                    <option value="Занятия в группе">Занятия в группе</option>
-                    <option value="Индивидуальные занятия">Индивидуальные занятия</option>
-                    <option value="Интенсив ЕГЭ">Интенсив ЕГЭ</option>
-                    <option value="Консультация">Мне нужна консультация</option>
-                </select>
+            
+            <div id="modalBody">
+                <h2 class="modal-title">Оставить заявку</h2>
+                <form id="telegramForm">
+                    <!-- Улучшение Accessibility: Добавлены ID и привязка FOR -->
+                    <label for="nameInput" style="display:block; margin-bottom: 0.5rem; font-weight:600; font-size:0.9rem; color: #D4D4D8;">Ваше имя</label>
+                    <input type="text" id="nameInput" name="name" class="form-input" placeholder="Например, Иван" required>
+                    
+                    <label for="phoneInput" style="display:block; margin-bottom: 0.5rem; font-weight:600; font-size:0.9rem; color: #D4D4D8;">Телефон или Telegram</label>
+                    <input type="text" id="phoneInput" name="phone" class="form-input" placeholder="+7 (999) 000-00-00" required>
+                    
+                    <label for="topicSelect" style="display:block; margin-bottom: 0.5rem; font-weight:600; font-size:0.9rem; color: #D4D4D8;">Ваш выбор</label>
+                    <select name="topic" id="topicSelect" class="form-input">
+                        <option value="Пробный урок">Пробный урок</option>
+                        <option value="Занятия в группе">Занятия в группе</option>
+                        <option value="Индивидуальные занятия">Индивидуальные занятия</option>
+                        <option value="Интенсив ЕГЭ">Интенсив ЕГЭ</option>
+                        <option value="Консультация">Мне нужна консультация</option>
+                    </select>
 
-                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 0.5rem;">Отправить</button>
-            </form>
+                    <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 0.5rem;">Отправить</button>
+                </form>
+            </div>
+
+            <!-- Улучшение UX: Сообщение об успехе вместо alert() -->
+            <div id="successMessage" class="success-message">
+                <span class="success-icon">✓</span>
+                <h3 class="modal-title">Спасибо!</h3>
+                <p style="color: var(--text-muted); font-size: 1.1rem; margin-bottom: 1rem;">
+                    Ваша заявка успешно отправлена.<br>Я свяжусь с вами в ближайшее время.(демо)
+                </p>
+                <button class="btn btn-outline" id="btnSuccessClose">Закрыть</button>
+            </div>
+
         </div>
     </div>
 
@@ -888,7 +932,7 @@
             });
         });
 
-        // Зацикливание фокуса в мобильном меню
+        // Зацикливание фокуса в мобильном меню (Accessibility)
         document.addEventListener('keydown', function(e) {
             if (!mobileMenu.classList.contains('active')) return;
             if (e.key === 'Tab') {
@@ -915,27 +959,40 @@
             }
         });
 
-        // Анимация при скролле (Scroll Reveal)
-        function reveal() {
-            var reveals = document.querySelectorAll(".reveal");
-            for (var i = 0; i < reveals.length; i++) {
-                var windowHeight = window.innerHeight;
-                var elementTop = reveals[i].getBoundingClientRect().top;
-                var elementVisible = 100;
-                if (elementTop < windowHeight - elementVisible) {
-                    reveals[i].classList.add("active");
-                }
-            }
-        }
-        window.addEventListener("scroll", reveal);
-        reveal();
+        // --- УЛУЧШЕНИЕ ПРОИЗВОДИТЕЛЬНОСТИ (IntersectionObserver вместо Scroll Event) ---
+        document.addEventListener("DOMContentLoaded", function() {
+            const revealElements = document.querySelectorAll('.reveal');
+
+            const revealObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        // Если анимация нужна только один раз - раскомментируйте следующую строку:
+                        // observer.unobserve(entry.target); 
+                    }
+                });
+            }, {
+                root: null,
+                threshold: 0.1, // Сработает, когда 10% элемента появится на экране
+                rootMargin: "0px" 
+            });
+
+            revealElements.forEach(el => revealObserver.observe(el));
+        });
 
         // --- ЛОГИКА МОДАЛЬНОГО ОКНА ---
         const modal = document.getElementById('modalOverlay');
         const closeModalBtn = document.querySelector('.modal-close');
         const topicSelect = document.getElementById('topicSelect');
+        const modalBody = document.getElementById('modalBody');
+        const successMessage = document.getElementById('successMessage');
+        const btnSuccessClose = document.getElementById('btnSuccessClose');
 
         function openModal(topic) {
+            // Сбрасываем вид модалки к форме (если до этого было сообщение об успехе)
+            modalBody.style.display = 'block';
+            successMessage.style.display = 'none';
+            
             topicSelect.value = topic;
             modal.classList.add('active');
         }
@@ -946,6 +1003,7 @@
 
         // Кнопка закрытия
         closeModalBtn.addEventListener('click', closeModal);
+        btnSuccessClose.addEventListener('click', closeModal);
 
         // Закрытие по клику вне окна
         modal.addEventListener('click', (e) => {
@@ -958,31 +1016,29 @@
         });
 
         // Навешиваем обработчики на кнопки
-        // Теперь кнопки "Связаться" выбирают "Консультация"
         document.getElementById('btnNavContact').addEventListener('click', () => openModal('Консультация'));
         document.getElementById('btnBurgerContact').addEventListener('click', () => openModal('Консультация'));
-        
-        // Кнопка "Попробовать" (Пробный урок) осталась без изменений
         document.getElementById('btnHeroTrial').addEventListener('click', () => openModal('Пробный урок'));
-        
-        // Кнопки тарифов
         document.getElementById('btnGroup').addEventListener('click', () => openModal('Занятия в группе'));
         document.getElementById('btnPersonal').addEventListener('click', () => openModal('Индивидуальные занятия'));
         document.getElementById('btnIntensive').addEventListener('click', () => openModal('Интенсив ЕГЭ'));
 
-
-        // Отправка формы в Telegram
+        // --- УЛУЧШЕНИЕ UX: ОТПРАВКА ФОРМЫ ---
         document.getElementById('telegramForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
-            // ВСТАВЬТЕ СЮДА ВАШИ ДАННЫЕ
+            // ВСТАВЬТЕ СЮДА ВАШИ ДАННЫЕ (Или backend URL)
             const BOT_TOKEN = 'YOUR_BOT_TOKEN_HERE'; 
             const CHAT_ID = 'YOUR_CHAT_ID_HERE';
             
+            // Демонстрационный режим (если токены не заполнены)
             if (BOT_TOKEN === 'YOUR_BOT_TOKEN_HERE') {
-                alert('Спасибо! Заявка отправлена (демо).');
-                this.reset();
-                closeModal();
+                // Имитация задержки сети
+                setTimeout(() => {
+                    modalBody.style.display = 'none';
+                    successMessage.style.display = 'block';
+                    this.reset(); // Очистка формы
+                }, 500);
                 return;
             }
 
@@ -1005,9 +1061,10 @@
             })
             .then(response => {
                 if (response.ok) {
-                    alert('Спасибо! Ваша заявка успешно отправлена.');
+                    // Успешная отправка: скрываем форму, показываем галочку
+                    modalBody.style.display = 'none';
+                    successMessage.style.display = 'block';
                     this.reset();
-                    closeModal();
                 } else {
                     alert('Ошибка при отправке. Попробуйте позже.');
                 }
