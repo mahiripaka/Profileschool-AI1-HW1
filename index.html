@@ -567,7 +567,7 @@
                     <div class="card hero-text-card reveal">
                         <h1 class="hero-title"><span class="gradient-text">Английский легко</span><br>с репетитором<br>Натальей Орловой</h1>
                         <p class="hero-subtitle">
-                            Персональные и групповые занятия. Подготовка к ЕГЭ/ОГЭ
+                            Персональные и групповые занятия. Подготовка к ЕГЭ/ОГЭ и международным экзаменам начального уровня
                         </p>
                         <!-- ДОБАВЛЕНА ИНФОРМАЦИЯ О БЕСПЛАТНОМ УРОКЕ (с SVG иконкой Огня) -->
                         <div style="margin-bottom: 1.5rem; color: var(--primary); font-weight: 600; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em; display: flex; align-items: center; justify-content: center; gap: 10px;">
@@ -858,12 +858,13 @@
                 <label style="display:block; margin-bottom: 0.5rem; font-weight:600; font-size:0.9rem; color: #D4D4D8;">Телефон или Telegram</label>
                 <input type="text" name="phone" class="form-input" placeholder="+7 (999) 000-00-00" required>
                 
-                <label style="display:block; margin-bottom: 0.5rem; font-weight:600; font-size:0.9rem; color: #D4D4D8;">Хочу</label>
+                <label style="display:block; margin-bottom: 0.5rem; font-weight:600; font-size:0.9rem; color: #D4D4D8;">Ваш выбор</label>
                 <select name="topic" id="topicSelect" class="form-input">
                     <option value="Пробный урок">Пробный урок</option>
                     <option value="Занятия в группе">Занятия в группе</option>
                     <option value="Индивидуальные занятия">Индивидуальные занятия</option>
                     <option value="Интенсив ЕГЭ">Интенсив ЕГЭ</option>
+                    <option value="Консультация">Мне нужна консультация</option>
                 </select>
 
                 <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 0.5rem;">Отправить</button>
@@ -957,10 +958,14 @@
         });
 
         // Навешиваем обработчики на кнопки
-        document.getElementById('btnNavContact').addEventListener('click', () => openModal('Пробный урок'));
-        document.getElementById('btnBurgerContact').addEventListener('click', () => openModal('Пробный урок'));
+        // Теперь кнопки "Связаться" выбирают "Консультация"
+        document.getElementById('btnNavContact').addEventListener('click', () => openModal('Консультация'));
+        document.getElementById('btnBurgerContact').addEventListener('click', () => openModal('Консультация'));
+        
+        // Кнопка "Попробовать" (Пробный урок) осталась без изменений
         document.getElementById('btnHeroTrial').addEventListener('click', () => openModal('Пробный урок'));
         
+        // Кнопки тарифов
         document.getElementById('btnGroup').addEventListener('click', () => openModal('Занятия в группе'));
         document.getElementById('btnPersonal').addEventListener('click', () => openModal('Индивидуальные занятия'));
         document.getElementById('btnIntensive').addEventListener('click', () => openModal('Интенсив ЕГЭ'));
