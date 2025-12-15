@@ -197,11 +197,9 @@
             color: var(--text-dark);
         }
 
-        /* Особый стиль фокуса для кнопки "Связаться" в бургере:
-           черный текст и внешнее свечение */
         .mobile-menu-overlay .btn-primary:focus {
-            color: var(--text-dark); /* Текст остается черным */
-            box-shadow: 0 0 30px rgba(204, 255, 0, 0.5); /* Свечение как у кнопки меню */
+            color: var(--text-dark);
+            box-shadow: 0 0 30px rgba(204, 255, 0, 0.5);
             background-color: var(--primary);
         }
 
@@ -352,8 +350,6 @@
             content: '✓'; position: absolute; left: 0; width: 20px; height: 20px; color: var(--primary); font-weight: 900; font-size: 1.2rem; line-height: 1; text-shadow: 0 0 10px var(--primary);
         }
 
-        @media (min-width: 901px) { .pricing-card.featured { } }
-
         /* --- 10. REVIEWS (DARK) --- */
         .review-card {
             background: var(--bg-card); padding: 2.5rem; border-radius: 32px; display: flex; flex-direction: column; height: 100%; border: 1px solid rgba(255,255,255,0.05); box-shadow: var(--shadow-soft); transition: all 0.4s ease;
@@ -421,28 +417,41 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Contact & Footer */
-        .contact-wrapper { 
-            /* Same dark gradient as Hero + Noise */
-            background: linear-gradient(135deg, #1A1A1E 0%, #0F0F11 100%);
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E"), linear-gradient(135deg, #1A1A1E 0%, #0F0F11 100%);
+        /* --- MODAL STYLES --- */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+            display: none; /* Hidden by default */
+            justify-content: center; align-items: center;
+            opacity: 0; transition: opacity 0.3s ease;
+        }
+        .modal-overlay.active { display: flex; opacity: 1; }
+
+        .modal-content {
+            background: var(--bg-card);
+            padding: 2.5rem; 
+            border-radius: 24px;
             border: 1px solid rgba(255,255,255,0.1);
-            border-radius: var(--radius); padding: 5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; position: relative; overflow: hidden; 
-            z-index: 1;
+            width: 90%; max-width: 500px;
+            position: relative;
+            transform: translateY(20px); transition: transform 0.3s ease;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
         }
-        /* Matching Hero Glows */
-        .contact-wrapper::before { 
-            content: ''; position: absolute; top: -100px; left: -100px; width: 400px; height: 400px; background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, rgba(0,0,0,0) 70%); border-radius: 50%; z-index: -1; pointer-events: none;
+        .modal-overlay.active .modal-content { transform: translateY(0); }
+
+        .modal-close {
+            position: absolute; top: 1.2rem; right: 1.2rem;
+            background: transparent; border: none; color: var(--text-muted);
+            font-size: 2rem; line-height: 1; cursor: pointer; transition: color 0.3s;
         }
-        .contact-wrapper::after {
-            content: ''; position: absolute; bottom: -100px; right: -100px; width: 400px; height: 400px; background: radial-gradient(circle, rgba(204, 255, 0, 0.1) 0%, rgba(0,0,0,0) 70%); border-radius: 50%; z-index: -1; pointer-events: none;
-        }
+        .modal-close:hover { color: var(--text-main); }
         
-        .contact-form { 
-            background: rgba(30, 30, 35, 0.6); backdrop-filter: blur(20px); padding: 2.5rem; border-radius: 32px; 
-            border: 1px solid rgba(255,255,255,0.05); position: relative; z-index: 2; 
+        .modal-title {
+            font-size: 1.8rem; font-weight: 700; margin-bottom: 1.5rem; text-align: center;
         }
-        
+
         .form-input { 
             width: 100%; padding: 1.2rem; margin-bottom: 1rem; 
             background: #09090b; 
@@ -450,7 +459,6 @@
         }
         .form-input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 10px rgba(204, 255, 0, 0.1); }
         
-        /* Стили для выпадающего списка Select */
         select.form-input {
             appearance: none;
             -webkit-appearance: none;
@@ -461,7 +469,6 @@
             background-position: right 1rem center;
             background-size: 1em;
         }
-        /* Цвет опций выпадающего списка в темной теме */
         select.form-input option {
             background-color: #1a1c22;
             color: var(--text-main);
@@ -493,7 +500,7 @@
             .nav-cta-wrapper { display: none; }
             .burger { display: block; }
             
-            .hero-grid, .stats-card-container, .methodology-grid, .about-grid, .formats-grid, .contact-wrapper, .benefits-grid {
+            .hero-grid, .stats-card-container, .methodology-grid, .about-grid, .formats-grid, .benefits-grid {
                 grid-template-columns: 1fr;
             }
             .benefits-grid { grid-template-columns: 1fr !important; }
@@ -508,7 +515,6 @@
             .hero-image-card { min-height: 360px; }
             .about-photo { height: 450px; border-radius: 32px; }
             
-            .contact-wrapper { padding: 2.5rem; gap: 2rem; }
             .hero-title { font-size: 2.5rem; }
             .section-title { font-size: 2rem; }
         }
@@ -532,9 +538,9 @@
         </nav>
 
         <div class="nav-cta-wrapper">
-            <a href="#contact" class="btn btn-primary" id="btnNavContact" style="padding: 0.7rem 1.8rem; font-size: 0.95rem;">
+            <button class="btn btn-primary" id="btnNavContact" style="padding: 0.7rem 1.8rem; font-size: 0.95rem;">
                 Связаться
-            </a>
+            </button>
         </div>
 
         <div class="burger" id="burgerBtn" tabindex="0">
@@ -549,7 +555,7 @@
         <a href="#reviews" class="mobile-link">Отзывы</a>
         <a href="#formats" class="mobile-link">Цены</a>
         <a href="#faq" class="mobile-link">FAQ</a>
-        <a href="#contact" class="btn btn-primary mobile-link" id="btnBurgerContact" style="font-size: 1.2rem;">Связаться</a>
+        <button class="btn btn-primary mobile-link" id="btnBurgerContact" style="font-size: 1.2rem;">Связаться</button>
     </div>
 
     <main>
@@ -563,7 +569,7 @@
                         <p class="hero-subtitle">
                             Персональные и групповые занятия. Подготовка к ЕГЭ/ОГЭ и международным экзаменам начального уровня
                         </p>
-                        <a href="#contact" class="btn btn-white" id="btnHeroTrial" style="align-self: center; color: #000;">Пробный урок</a>
+                        <button class="btn btn-white" id="btnHeroTrial" style="align-self: center; color: #000;">Пробный урок</button>
                     </div>
                     <div class="card hero-image-card reveal" style="transition-delay: 0.1s;">
                         <img src="img/students1.jpg" class="floating" alt="Наталья Орлова - занятие с учениками" width="600" height="600" loading="eager" fetchpriority="high">
@@ -702,7 +708,7 @@
                                 <li>Проверка ДЗ</li>
                             </ul>
                         </div>
-                        <a href="#contact" class="btn btn-outline" id="btnGroup" style="width:100%;">Выбрать</a>
+                        <button class="btn btn-outline" id="btnGroup" style="width:100%;">Выбрать</button>
                     </div>
 
                     <!-- Карточка 2 -->
@@ -719,7 +725,7 @@
                                 <li>Отчеты родителям</li>
                             </ul>
                         </div>
-                        <a href="#contact" class="btn btn-primary" id="btnPersonal" style="width:100%;">Записаться</a>
+                        <button class="btn btn-primary" id="btnPersonal" style="width:100%;">Записаться</button>
                     </div>
 
                     <!-- Карточка 3 -->
@@ -734,7 +740,7 @@
                                 <li>Вебинары с психологом</li>
                             </ul>
                         </div>
-                        <a href="#contact" class="btn btn-outline" id="btnIntensive" style="width:100%;">Узнать даты</a>
+                        <button class="btn btn-outline" id="btnIntensive" style="width:100%;">Узнать даты</button>
                     </div>
 
                 </div>
@@ -792,38 +798,7 @@
                  </div>
             </section>
 
-            <!-- 7. CONTACT -->
-            <section id="contact" class="section-padding">
-                <div class="contact-wrapper reveal">
-                    <div>
-                        <h2 style="font-size: 2.5rem; line-height: 1.1; margin-bottom: 1.5rem; color: #FFFFFF;">
-                            Прокачай свой <span class="gradient-text">English</span><br>до уровня <span class="gradient-text">Pro</span>
-                        </h2>
-                        <p style="font-size:1.15rem; color: #D4D4D8;">
-                            Оставь заявку на бесплатный пробный урок. Определим твой уровень и составим план победы.
-                        </p>
-                    </div>
-                    <div class="contact-form">
-                        <form id="telegramForm">
-                            <label style="display:block; margin-bottom: 0.5rem; font-weight:600; font-size:0.9rem; color: #D4D4D8;">Ваше имя</label>
-                            <input type="text" name="name" class="form-input" placeholder="Например, Иван" required>
-                            
-                            <label style="display:block; margin-bottom: 0.5rem; font-weight:600; font-size:0.9rem; color: #D4D4D8;">Телефон или Telegram</label>
-                            <input type="text" name="phone" class="form-input" placeholder="+7 (999) 000-00-00" required>
-                            
-                            <label style="display:block; margin-bottom: 0.5rem; font-weight:600; font-size:0.9rem; color: #D4D4D8;">Хочу</label>
-                            <select name="topic" id="topicSelect" class="form-input">
-                                <option value="Пробный урок">Пробный урок</option>
-                                <option value="Занятия в группе">Занятия в группе</option>
-                                <option value="Индивидуальные занятия">Индивидуальные занятия</option>
-                                <option value="Интенсив ЕГЭ">Интенсив ЕГЭ</option>
-                            </select>
-
-                            <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 0.5rem;">Отправить заявку</button>
-                        </form>
-                    </div>
-                </div>
-            </section>
+            <!-- СЕКЦИЯ КОНТАКТОВ УДАЛЕНА ПО ЗАПРОСУ -->
 
             <!-- 8. FAQ -->
             <section id="faq" class="section-padding">
@@ -866,6 +841,31 @@
         </div>
     </footer>
 
+    <!-- MODAL OVERLAY -->
+    <div id="modalOverlay" class="modal-overlay">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <h2 class="modal-title">Оставить заявку</h2>
+            <form id="telegramForm">
+                <label style="display:block; margin-bottom: 0.5rem; font-weight:600; font-size:0.9rem; color: #D4D4D8;">Ваше имя</label>
+                <input type="text" name="name" class="form-input" placeholder="Например, Иван" required>
+                
+                <label style="display:block; margin-bottom: 0.5rem; font-weight:600; font-size:0.9rem; color: #D4D4D8;">Телефон или Telegram</label>
+                <input type="text" name="phone" class="form-input" placeholder="+7 (999) 000-00-00" required>
+                
+                <label style="display:block; margin-bottom: 0.5rem; font-weight:600; font-size:0.9rem; color: #D4D4D8;">Хочу</label>
+                <select name="topic" id="topicSelect" class="form-input">
+                    <option value="Пробный урок">Пробный урок</option>
+                    <option value="Занятия в группе">Занятия в группе</option>
+                    <option value="Индивидуальные занятия">Индивидуальные занятия</option>
+                    <option value="Интенсив ЕГЭ">Интенсив ЕГЭ</option>
+                </select>
+
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 0.5rem;">Отправить заявку</button>
+            </form>
+        </div>
+    </div>
+
     <script>
         // Мобильное меню
         const burgerBtn = document.getElementById('burgerBtn');
@@ -886,7 +886,7 @@
         document.addEventListener('keydown', function(e) {
             if (!mobileMenu.classList.contains('active')) return;
             if (e.key === 'Tab') {
-                const links = Array.from(mobileMenu.querySelectorAll('a'));
+                const links = Array.from(mobileMenu.querySelectorAll('a, button'));
                 const firstElement = burgerBtn;
                 const lastElement = links[links.length - 1];
                 if (e.shiftKey) {
@@ -924,28 +924,41 @@
         window.addEventListener("scroll", reveal);
         reveal();
 
-        // --- ЛОГИКА ВЫБОРА ТАРИФА ---
+        // --- ЛОГИКА МОДАЛЬНОГО ОКНА ---
+        const modal = document.getElementById('modalOverlay');
+        const closeModalBtn = document.querySelector('.modal-close');
         const topicSelect = document.getElementById('topicSelect');
 
-        // Обработчики для тарифов
-        document.getElementById('btnGroup').addEventListener('click', () => {
-            topicSelect.value = 'Занятия в группе';
-        });
-        document.getElementById('btnPersonal').addEventListener('click', () => {
-            topicSelect.value = 'Индивидуальные занятия';
-        });
-        document.getElementById('btnIntensive').addEventListener('click', () => {
-            topicSelect.value = 'Интенсив ЕГЭ';
+        function openModal(topic) {
+            topicSelect.value = topic;
+            modal.classList.add('active');
+        }
+
+        function closeModal() {
+            modal.classList.remove('active');
+        }
+
+        // Кнопка закрытия
+        closeModalBtn.addEventListener('click', closeModal);
+
+        // Закрытие по клику вне окна
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
         });
 
-        // Обработчики для кнопок "Связаться" и "Пробный урок"
-        function setTrialLesson() {
-            topicSelect.value = 'Пробный урок';
-        }
+        // Закрытие по Esc
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modal.classList.contains('active')) closeModal();
+        });
+
+        // Навешиваем обработчики на кнопки
+        document.getElementById('btnNavContact').addEventListener('click', () => openModal('Пробный урок'));
+        document.getElementById('btnBurgerContact').addEventListener('click', () => openModal('Пробный урок'));
+        document.getElementById('btnHeroTrial').addEventListener('click', () => openModal('Пробный урок'));
         
-        document.getElementById('btnNavContact').addEventListener('click', setTrialLesson);
-        document.getElementById('btnBurgerContact').addEventListener('click', setTrialLesson);
-        document.getElementById('btnHeroTrial').addEventListener('click', setTrialLesson);
+        document.getElementById('btnGroup').addEventListener('click', () => openModal('Занятия в группе'));
+        document.getElementById('btnPersonal').addEventListener('click', () => openModal('Индивидуальные занятия'));
+        document.getElementById('btnIntensive').addEventListener('click', () => openModal('Интенсив ЕГЭ'));
 
 
         // Отправка формы в Telegram
@@ -959,6 +972,7 @@
             if (BOT_TOKEN === 'YOUR_BOT_TOKEN_HERE') {
                 alert('Спасибо! Заявка отправлена (демо).');
                 this.reset();
+                closeModal();
                 return;
             }
 
@@ -983,6 +997,7 @@
                 if (response.ok) {
                     alert('Спасибо! Ваша заявка успешно отправлена.');
                     this.reset();
+                    closeModal();
                 } else {
                     alert('Ошибка при отправке. Попробуйте позже.');
                 }
